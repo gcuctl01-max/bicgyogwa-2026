@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NotebookLM 강의 카드뉴스</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Black+Han+Sans&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0d1b3e;
+    --blue: #1a3a8f;
+    --sky: #3a7bd5;
+    --cyan: #00c9e4;
+    --yellow: #ffd84d;
+    --white: #ffffff;
+    --light: #f0f6ff;
+    --gray: #8899bb;
+  }
+
+  body {
+    background: #1a1a2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 40px 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .card {
+    width: 1080px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* ─── CARD 1: 표지 ─── */
+  .c1 {
+    background: var(--navy);
+  }
+  .c1 .bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(58,123,213,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(58,123,213,0.12) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .c1 .glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,201,228,0.15) 0%, transparent 70%);
+    top: -150px; right: -150px;
+  }
+  .c1 .glow2 {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(26,58,143,0.4) 0%, transparent 70%);
+    bottom: -100px; left: -100px;
+  }
+  .c1 .badge {
+    position: absolute;
+    top: 68px; left: 72px;
+    background: var(--cyan);
+    color: var(--navy);
+    font-weight: 900;
+    font-size: 22px;
+    padding: 10px 28px;
+    border-radius: 50px;
+    letter-spacing: 1px;
+  }
+  .c1 .logo {
+    position: absolute;
+    top: 60px; right: 72px;
+    color: var(--gray);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .c1 .main-content {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 900px;
+  }
+  .c1 .ai-tag {
+    display: inline-block;
+    border: 2px solid var(--cyan);
+    color: var(--cyan);
+    font-size: 24px;
+    font-weight: 700;
+    padding: 8px 32px;
+    border-radius: 4px;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+  }
+  .c1 .title-main {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 96px;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+  }
+  .c1 .title-main span {
+    color: var(--yellow);
+  }
+  .c1 .title-sub {
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--gray);
+    letter-spacing: 2px;
+    margin-bottom: 56px;
+  }
+  .c1 .divider {
+    width: 80px; height: 3px;
+    background: linear-gradient(90deg, var(--cyan), var(--sky));
+    margin: 0 auto 56px;
+  }
+  .c1 .tool-name {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 52px;
+    color: var(--cyan);
+    letter-spacing: 4px;
+  }
+  .c1 .bottom-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    padding: 32px 0;
+  }
+  .c1 .info-item {
+    text-align: center;
+  }
+  .c1 .info-label {
+    font-size: 18px;
+    color: var(--gray);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .c1 .info-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  /* ─── CARD 2: 문제 공감 ─── */
+  .c2 {
+    background: #0a1628;
+  }
+  .c2 .bg-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--cyan), var(--sky), var(--blue));
+  }
+  .c2 .section-num {
+    position: absolute;
+    top: 60px; right: 72px;
+    font-size: 120px;
+    font-family: 'Black Han Sans', sans-serif;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+  }
+  .c2 .header {
+    position: absolute;
+    top: 72px; left: 72px;
+  }
+  .c2 .q-tag {
+    font-size: 20px;
+    color: var(--cyan);
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+  .c2 .h-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 64px;
+    color: var(--white);
+    line-height: 1.1;
+  }
+  .c2 .h-title span { color: var(--yellow); }
+  .c2 .pain-list {
+    position: absolute;
+    top: 280px; left: 72px; right: 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .c2 .pain-item {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 32px 40px;
+  }
+  .c2 .pain-icon {
+    font-size: 48px;
+    flex-shrink: 0;
+  }
+  .c2 .pain-text {
+    flex: 1;
+  }
+  .c2 .pain-main {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .c2 .pain-sub {
+    font-size: 22px;
+    color: var(--gray);
+    font-weight: 300;
+  }
+  .c2 .bottom-cta {
+    position: absolute;
+    bottom: 72px; left: 72px; right: 72px;
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    border-radius: 20px;
+    padding: 36px 48px;
+    text-align: center;
+  }
+  .c2 .cta-text {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .c2 .cta-text span { color: var(--yellow); }
+
+  /* ─── CARD 3: NotebookLM 소개 ─── */
+  .c3 {
+    background: linear-gradient(160deg, #071525 0%, #0d2545 60%, #071525 100%);
+  }
+  .c3 .grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,201,228,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,201,228,0.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .c3 .circle-deco {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0,201,228,0.15);
+  }
+  .c3 .circle-deco.c1d { width: 400px; height: 400px; top: -100px; right: -100px; }
+  .c3 .circle-deco.c2d { width: 600px; height: 600px; top: -200px; right: -200px; }
+  .c3 .header3 {
+    position: absolute;
+    top: 72px; left: 72px;
+  }
+  .c3 .step-tag {
+    font-size: 20px; color: var(--cyan); font-weight: 700; letter-spacing: 2px; margin-bottom: 12px;
+  }
+  .c3 .h3-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 58px;
+    color: var(--white);
+    line-height: 1.15;
+  }
+  .c3 .h3-title span { color: var(--cyan); }
+  .c3 .notebook-logo {
+    position: absolute;
+    top: 72px; right: 72px;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 28px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    border: 2px solid rgba(0,201,228,0.4);
+    padding: 12px 24px;
+    border-radius: 8px;
+  }
+  .c3 .feature-grid {
+    position: absolute;
+    top: 260px; left: 72px; right: 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .c3 .feat-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(0,201,228,0.2);
+    border-radius: 20px;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .c3 .feat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+  }
+  .c3 .feat-num {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 52px;
+    color: rgba(0,201,228,0.2);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .c3 .feat-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--cyan);
+    margin-bottom: 10px;
+  }
+  .c3 .feat-desc {
+    font-size: 21px;
+    color: var(--white);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .c3 .feat-sub {
+    font-size: 18px;
+    color: var(--gray);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* ─── CARD 4: 커리큘럼 ─── */
+  .c4 {
+    background: #050e1f;
+  }
+  .c4 .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--yellow), var(--cyan), var(--sky));
+  }
+  .c4 .header4 {
+    position: absolute;
+    top: 72px; left: 72px;
+  }
+  .c4 .curr-tag {
+    font-size: 20px; color: var(--yellow); font-weight: 700; letter-spacing: 2px; margin-bottom: 12px;
+  }
+  .c4 .h4-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 60px;
+    color: var(--white);
+    line-height: 1.1;
+  }
+  .c4 .timeline {
+    position: absolute;
+    top: 240px; left: 72px; right: 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .c4 .tl-item {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+  .c4 .tl-left {
+    width: 160px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 28px;
+  }
+  .c4 .tl-dot {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 3px solid var(--cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--cyan);
+    z-index: 1;
+    flex-shrink: 0;
+  }
+  .c4 .tl-line {
+    width: 2px;
+    flex: 1;
+    background: linear-gradient(to bottom, var(--cyan), rgba(58,123,213,0.3));
+    margin-top: 4px;
+  }
+  .c4 .tl-right {
+    flex: 1;
+    padding: 20px 0 32px 24px;
+  }
+  .c4 .tl-time {
+    font-size: 19px;
+    color: var(--cyan);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .c4 .tl-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .c4 .tl-items {
+    font-size: 20px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+  .c4 .tl-item:last-child .tl-line { display: none; }
+
+  /* ─── CARD 5: 신청 안내 ─── */
+  .c5 {
+    background: var(--navy);
+    overflow: hidden;
+  }
+  .c5 .bg-diag {
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(0,201,228,0.12) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .c5 .bg-diag2 {
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,216,77,0.08) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .c5 .header5 {
+    position: absolute;
+    top: 80px; left: 0; right: 0;
+    text-align: center;
+  }
+  .c5 .free-tag {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--navy);
+    font-size: 22px;
+    font-weight: 900;
+    padding: 10px 32px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+  }
+  .c5 .h5-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 72px;
+    color: var(--white);
+    line-height: 1.1;
+  }
+  .c5 .h5-title span { color: var(--cyan); }
+  .c5 .info-box {
+    position: absolute;
+    top: 340px; left: 72px; right: 72px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 48px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .c5 .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .c5 .info-icon {
+    font-size: 36px;
+    flex-shrink: 0;
+    width: 56px;
+  }
+  .c5 .info-content {}
+  .c5 .info-lbl {
+    font-size: 20px;
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .c5 .info-val {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .c5 .info-val.small { font-size: 24px; }
+  .c5 .speaker-box {
+    position: absolute;
+    bottom: 100px; left: 72px; right: 72px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(0,201,228,0.15), rgba(26,58,143,0.3));
+    border: 1px solid rgba(0,201,228,0.3);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .c5 .sp-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), var(--sky));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    flex-shrink: 0;
+  }
+  .c5 .sp-info {}
+  .c5 .sp-role {
+    font-size: 20px;
+    color: var(--cyan);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .c5 .sp-name {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .c5 .apply-btn {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(90deg, var(--cyan), var(--sky));
+    text-align: center;
+    padding: 28px;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--navy);
+    letter-spacing: 2px;
+  }
+
+  /* 카드 번호 표시 */
+  .card-label {
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: -16px;
+    font-family: 'Noto Sans KR', sans-serif;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ CARD 1: 표지 ═══════════ -->
+<p class="card-label">CARD 01 / 05 — 표지</p>
+<div class="card c1">
+  <div class="bg-grid"></div>
+  <div class="glow"></div>
+  <div class="glow2"></div>
+  <div class="badge">무료 특강</div>
+  <div class="logo">글로벌사이버대학교<br>교수학습지원센터</div>
+  <div class="main-content">
+    <div class="ai-tag">AI STUDY LECTURE</div>
+    <div class="title-main">공부 지능<br><span>2배</span> 높이기</div>
+    <div class="title-sub">AI로 공부하는 가장 똑똑한 방법</div>
+    <div class="divider"></div>
+    <div class="tool-name">NotebookLM</div>
+  </div>
+  <div class="bottom-info">
+    <div class="info-item">
+      <div class="info-label">일시</div>
+      <div class="info-value">4월 29일(수) 오후 8시</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">장소</div>
+      <div class="info-value">Zoom 온라인 실시간</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">대상</div>
+      <div class="info-value">전체 재학생</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 2: 문제 공감 ═══════════ -->
+<p class="card-label">CARD 02 / 05 — 공감</p>
+<div class="card c2">
+  <div class="bg-accent"></div>
+  <div class="section-num">02</div>
+  <div class="header">
+    <div class="q-tag">혹시 이런 고민 있으신가요?</div>
+    <div class="h-title">공부는 열심히 하는데<br><span>성적이 안 오른다면?</span></div>
+  </div>
+  <div class="pain-list">
+    <div class="pain-item">
+      <div class="pain-icon">📚</div>
+      <div class="pain-text">
+        <div class="pain-main">수백 페이지 전공서적, 어디서부터 읽어야 할지 막막하다</div>
+        <div class="pain-sub">핵심을 찾는 데만 시간을 다 써버리는 경험</div>
+      </div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-icon">🤯</div>
+      <div class="pain-text">
+        <div class="pain-main">ChatGPT 썼다가 틀린 정보로 리포트 망친 적 있다</div>
+        <div class="pain-sub">AI 할루시네이션이 진짜 무서운 이유</div>
+      </div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-icon">⏰</div>
+      <div class="pain-text">
+        <div class="pain-main">시험 직전에 벼락치기, 늘 이 패턴을 반복한다</div>
+        <div class="pain-sub">체계적인 복습 도구가 없어서 생기는 문제</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-cta">
+    <div class="cta-text"><span>NotebookLM</span>이 이 모든 문제를 해결합니다 ✨</div>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 3: NotebookLM 소개 ═══════════ -->
+<p class="card-label">CARD 03 / 05 — 솔루션</p>
+<div class="card c3">
+  <div class="grid-bg"></div>
+  <div class="circle-deco c1d"></div>
+  <div class="circle-deco c2d"></div>
+  <div class="header3">
+    <div class="step-tag">SOLUTION — NotebookLM이란?</div>
+    <div class="h3-title">"내 자료"에서만 답하는<br><span>근거 기반 AI 스터디 도구</span></div>
+  </div>
+  <div class="notebook-logo">NotebookLM</div>
+  <div class="feature-grid">
+    <div class="feat-card">
+      <div class="feat-num">01</div>
+      <div class="feat-title">📤 멀티 소스 업로드</div>
+      <div class="feat-desc">전공 PDF · 강의 슬라이드 · 유튜브 링크를 한 곳에</div>
+      <div class="feat-sub">여러 자료를 통합해 연결고리를 찾아준다</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">02</div>
+      <div class="feat-title">🧠 지능형 요약</div>
+      <div class="feat-desc">핵심 개념과 용어를 5분 만에 추출</div>
+      <div class="feat-sub">복잡한 이론의 한계점까지 대화로 파악</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">03</div>
+      <div class="feat-title">📝 시험 대비 자동화</div>
+      <div class="feat-desc">객관식·주관식 예상 문제 무한 생성</div>
+      <div class="feat-sub">플래시카드로 취약 개념만 집중 암기</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">04</div>
+      <div class="feat-title">🎧 오디오 학습</div>
+      <div class="feat-desc">등하교 길 맞춤형 AI 팟캐스트 생성</div>
+      <div class="feat-sub">이동 시간도 전공 학습 시간으로 전환</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 4: 커리큘럼 ═══════════ -->
+<p class="card-label">CARD 04 / 05 — 커리큘럼</p>
+<div class="card c4">
+  <div class="top-bar"></div>
+  <div class="header4">
+    <div class="curr-tag">CURRICULUM — 60분 강의 구성</div>
+    <div class="h4-title">이 한 시간으로<br>공부법이 달라집니다</div>
+  </div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot">1</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-time">PART 1</div>
+        <div class="tl-title">AI 시대, 검색 대신 '대화'하라</div>
+        <div class="tl-items">ChatGPT와의 결정적 차이 · 할루시네이션 탈출법 · 구글 계정으로 바로 시작</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot">2</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-time">PART 2</div>
+        <div class="tl-title">읽기 혁명 — 수백 페이지를 5분에</div>
+        <div class="tl-items">멀티 소스 업로드 실습 · 핵심 개념 추출 · 강의 간 연결고리 찾기</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot">3</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-time">PART 3</div>
+        <div class="tl-title">나만의 AI 튜터 만들기</div>
+        <div class="tl-items">예상 문제 자동 생성 · 플래시카드 활용 · 전공 맞춤 AI 팟캐스트</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot">4</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-time">PART 4</div>
+        <div class="tl-title">과제·리포트 완성 & AI 리터러시</div>
+        <div class="tl-items">메모 → 목차 구조화 · 출처 확인법 · AI를 '생각의 도구'로 쓰는 윤리</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 5: 신청 안내 ═══════════ -->
+<p class="card-label">CARD 05 / 05 — 신청 안내</p>
+<div class="card c5">
+  <div class="bg-diag"></div>
+  <div class="bg-diag2"></div>
+  <div class="header5">
+    <div class="free-tag">✅ 재학생 무료 참여</div>
+    <div class="h5-title">지금 바로<br><span>신청하세요!</span></div>
+  </div>
+  <div class="info-box">
+    <div class="info-row">
+      <div class="info-icon">📅</div>
+      <div class="info-content">
+        <div class="info-lbl">일시</div>
+        <div class="info-val">2025년 4월 29일(수) 오후 8:00 ~ 9:00</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-icon">💻</div>
+      <div class="info-content">
+        <div class="info-lbl">장소</div>
+        <div class="info-val">Zoom 화상 강의 (신청자에게 링크 개별 문자 발송)</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-icon">🎯</div>
+      <div class="info-content">
+        <div class="info-lbl">대상 / 준비물</div>
+        <div class="info-val small">효율적인 학습을 원하는 전체 재학생 (전공 무관) / 구글 계정</div>
+      </div>
+    </div>
+  </div>
+  <div class="speaker-box">
+    <div class="sp-avatar">👩‍🏫</div>
+    <div class="sp-info">
+      <div class="sp-role">강연자</div>
+      <div class="sp-name">윤명희 교수 · 現 에세이 대표 | 글로벌사이버대학교</div>
+    </div>
+  </div>
+  <div class="apply-btn">📩 교수학습지원센터로 신청하기</div>
+</div>
+
+</body>
+</html>
